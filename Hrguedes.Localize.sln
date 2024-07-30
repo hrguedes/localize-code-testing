@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B4D39770-1BB0-4D40-ACFC-277ACEF4FA34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{407ABEB6-47F6-4656-8092-90566231EE17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrguedes.Localize.Application", "src\Hrguedes.Localize.Application\Hrguedes.Localize.Application.csproj", "{0355F764-00AA-49BA-950D-0AC56395F376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrguedes.Localize.Domain", "src\Hrguedes.Localize.Domain\Hrguedes.Localize.Domain.csproj", "{2BDB2474-9192-4E7F-B195-717AEB09242C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrguedes.Localize.Infra", "src\Hrguedes.Localize.Infra\Hrguedes.Localize.Infra.csproj", "{F0CA86C2-DEFF-4684-8E5F-7CB894079E12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrguedes.Localize.Infra.Shared", "src\Hrguedes.Localize.Infra.Shared\Hrguedes.Localize.Infra.Shared.csproj", "{017F9918-7C28-4022-922C-9DFD18BDAAF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hrguedes.Localize.Api", "src\Hrguedes.Localize.Api\Hrguedes.Localize.Api.csproj", "{5E99DF21-2A38-4565-9EA8-2C289AC5260C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F268945-0738-4074-97EB-4157EACD190E}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		database\LOAD_DATA.sql = database\LOAD_DATA.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0355F764-00AA-49BA-950D-0AC56395F376} = {B4D39770-1BB0-4D40-ACFC-277ACEF4FA34}
+		{2BDB2474-9192-4E7F-B195-717AEB09242C} = {B4D39770-1BB0-4D40-ACFC-277ACEF4FA34}
+		{F0CA86C2-DEFF-4684-8E5F-7CB894079E12} = {B4D39770-1BB0-4D40-ACFC-277ACEF4FA34}
+		{017F9918-7C28-4022-922C-9DFD18BDAAF8} = {B4D39770-1BB0-4D40-ACFC-277ACEF4FA34}
+		{5E99DF21-2A38-4565-9EA8-2C289AC5260C} = {B4D39770-1BB0-4D40-ACFC-277ACEF4FA34}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0355F764-00AA-49BA-950D-0AC56395F376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0355F764-00AA-49BA-950D-0AC56395F376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0355F764-00AA-49BA-950D-0AC56395F376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0355F764-00AA-49BA-950D-0AC56395F376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BDB2474-9192-4E7F-B195-717AEB09242C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BDB2474-9192-4E7F-B195-717AEB09242C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BDB2474-9192-4E7F-B195-717AEB09242C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BDB2474-9192-4E7F-B195-717AEB09242C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0CA86C2-DEFF-4684-8E5F-7CB894079E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0CA86C2-DEFF-4684-8E5F-7CB894079E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0CA86C2-DEFF-4684-8E5F-7CB894079E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0CA86C2-DEFF-4684-8E5F-7CB894079E12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017F9918-7C28-4022-922C-9DFD18BDAAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017F9918-7C28-4022-922C-9DFD18BDAAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017F9918-7C28-4022-922C-9DFD18BDAAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017F9918-7C28-4022-922C-9DFD18BDAAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E99DF21-2A38-4565-9EA8-2C289AC5260C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E99DF21-2A38-4565-9EA8-2C289AC5260C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E99DF21-2A38-4565-9EA8-2C289AC5260C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E99DF21-2A38-4565-9EA8-2C289AC5260C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

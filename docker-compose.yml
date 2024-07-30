@@ -1,0 +1,6 @@
+﻿services:
+  hrguedes.localize.api:
+    image: hrguedes.localize.api
+    build:
+      context: .
+      dockerfile: src/Hrguedes.Localize.Api/Dockerfile
