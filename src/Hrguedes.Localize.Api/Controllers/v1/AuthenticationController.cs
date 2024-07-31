@@ -3,6 +3,7 @@ using Hrguedes.Localize.Api.Common;
 using Hrguedes.Localize.Api.Common.Models;
 using Hrguedes.Localize.Application.Features.Usuarios.Commands.GetByEmail;
 using Hrguedes.Localize.Infra.Shared.Http;
+using Hrguedes.Localize.Infra.Shared.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ public class AuthenticationController : BaseController
     public AuthenticationController(ILogger<BaseController> logger) : base(logger)
     {
     }
-    
+
     /// <summary>
     /// Autenticar usuário
     /// </summary>
@@ -45,8 +46,8 @@ public class AuthenticationController : BaseController
     /// <response code="400">Erro de Cliente</response>
     /// <response code="500">Erro de Servidor</response>
     [HttpPost]
-    [ProducesResponseType(typeof(HttpResult<string>), 200)]
-    [ProducesResponseType(typeof(HttpResult<string>), 400)]
+    [ProducesResponseType(typeof(HttpResult<AuthenticateUsuarioResponse>), 200)]
+    [ProducesResponseType(typeof(HttpResult<AuthenticateUsuarioResponse>), 400)]
     [ProducesResponseType(typeof(HttpResult<>), 500)]
     public async Task<IActionResult> Post(
         [FromServices] IMediator mediator,
@@ -54,18 +55,21 @@ public class AuthenticationController : BaseController
     {
         try
         {
-            var response = await mediator.Send(new GetUsuarioByEmailRequest(request.Email));
-            if (!response.Ok)
-                return ResponseCode(response);
+            if (string.IsNullOrEmpty(request.Senha))
+                return ResponseCode(HttpResult<AuthenticateUsuarioResponse>.BadRequest(nameof(request.Senha), DefaultResources.NaoPodeSerVazio));
 
-            var token = await TokenService.GenerateToken(response.Value!);
-            return ResponseCode(!string.IsNullOrEmpty(token) 
-                ? HttpResult<string>.Success(token, "Ok") 
-                : HttpResult<string>.BadRequest("Ocorreu um erro ao gerar o Token"));
+            var user = await mediator.Send(new GetUsuarioByEmailRequest(request.Email));
+            if (!user.Ok)
+                return ResponseCode(user);
+            var token = await TokenService.GenerateToken(user.Value!);
+            var response = new AuthenticateUsuarioResponse(user.Value!.Nome, user.Value.Email, token, user.Value.Id);
+            return ResponseCode(!string.IsNullOrEmpty(token)
+                ? HttpResult<AuthenticateUsuarioResponse>.Success(response, "Ok")
+                : HttpResult<AuthenticateUsuarioResponse>.BadRequest("Ocorreu um erro ao gerar o Token"));
         }
         catch (Exception e)
         {
-            return ResponseCode(HttpResult<string>.InternalServerError(e.Message));
+            return ResponseCode(HttpResult<AuthenticateUsuarioResponse>.InternalServerError(e.Message));
         }
     }
 }

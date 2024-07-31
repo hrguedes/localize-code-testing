@@ -4,8 +4,10 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Hrguedes.Localize.Api.Common;
 using Hrguedes.Localize.Application.DependencyInjection;
+using Hrguedes.Localize.Infra.Persistence;
 using Hrguedes.Localize.Infra.Shared.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -107,6 +109,14 @@ builder.Services.AddSwaggerGen(opt =>
 // App
 var app = builder.Build();
 var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+// Apply migrations and seeds
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.MigrateAsync();
+    DatabaseInitializerSeed.Seed(scope.ServiceProvider);
+}
 
 // Swagger
 app.UseSwagger();

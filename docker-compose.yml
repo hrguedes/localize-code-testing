@@ -1,6 +1,32 @@
-﻿services:
-  hrguedes.localize.api:
-    image: hrguedes.localize.api
+﻿version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "D3v3l0p3r"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - localizenet
+
+  webapi:
+    image: localizeapi:latest
     build:
       context: .
       dockerfile: src/Hrguedes.Localize.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - sqlserver
+    networks:
+      - localizenet
+
+networks:
+  localizenet:
+    driver: bridge

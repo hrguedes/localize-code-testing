@@ -6,9 +6,9 @@ namespace Hrguedes.Localize.Infra.Persistence;
 
 public sealed class ApplicationDbContext : DbContext
 {
-    DbSet<Cliente> Clientes { get; set; }
-    DbSet<Usuario> Usuarios { get; set; }
-    DbSet<Cobranca> Cobrancas { get; set; }
+    public DbSet<Cliente> Clientes { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Cobranca> Cobrancas { get; set; }
     
     public ApplicationDbContext(DbContextOptions options) : base(options) { }
     

@@ -17,7 +17,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F268945-0738-4074-97EB-4157EACD190E}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
-		database\LOAD_DATA.sql = database\LOAD_DATA.sql
 	EndProjectSection
 EndProject
 Global
