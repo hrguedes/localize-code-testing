@@ -22,8 +22,8 @@ export default function Dashboard() {
   const [message, setMessage] = useState<string>("");
   const [exibirAlerta, setExibirAlerta] = useState<boolean>(false);
   const [form, setForm] = useState<AuthenticateUsuarioRequest>({
-    email: "",
-    senha: "",
+    Email: "",
+    Senha: "",
   });
 
   const handlerInput = (value: any, prop: string) => {
@@ -33,29 +33,31 @@ export default function Dashboard() {
   const handlerForm = async () => {
     setDisable(true);
     var response = await authenticarUsuarioAsync(form);
-    if (response.ok) {
-      if (response.value != null) {
-        Cookies.set("localize.email", response.value.email);
-        Cookies.set("localize.nome", response.value.nome);
-        Cookies.set("localize.id", response.value.id);
-        Cookies.set("localize.token", response.value.token);
-        LogIn();
-        router.push("/");
+    if (response != null) {
+      if (response.Ok) {
+        if (response.Value != null) {
+          localStorage.setItem("refresh_page", "0");
+          Cookies.set("localize.email", response.Value.Email);
+          Cookies.set("localize.nome", response.Value.Nome);
+          Cookies.set("localize.id", response.Value.Id);
+          Cookies.set("localize.token", response.Value.Token);
+          LogIn();
+          router.push("/");
+        } else {
+          setMessage("Ocorreu um erro");
+          setExibirAlerta(true);
+        }
+      } else if (response.ErrorMessages != null) {
+        setTitle(response.ErrorMessages[0].Key ?? "");
+        setMessage(response.ErrorMessages[0].Message ?? "");
+        setExibirAlerta(true);
       } else {
-        setMessage("Ocorreu um erro");
+        setMessage(response.Message ?? "");
         setExibirAlerta(true);
       }
-    } else if (response.errorMessages != null) {
-      setTitle(response.errorMessages[0].key ?? "");
-      setMessage(response.errorMessages[0].message ?? "");
-      setExibirAlerta(true);
-    } else {
-      setMessage(response.message ?? "");
-      setExibirAlerta(true);
     }
     setDisable(false);
   };
-
 
   return (
     <div className="w-full h-lvh lg:p-0 lg:grid lg:grid-cols-2">
@@ -86,7 +88,7 @@ export default function Dashboard() {
                 }
                 id="email"
                 type="email"
-                value={form.email}
+                value={form.Email}
                 placeholder="joao@joao.com"
                 required
               />
@@ -99,7 +101,7 @@ export default function Dashboard() {
                 id="password"
                 type="password"
                 disabled={disable}
-                value={form.senha}
+                value={form.Senha}
                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
                   handlerInput(event.target.value, "senha")
                 }

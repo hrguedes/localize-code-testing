@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Hrguedes.Localize.Api.Common;
@@ -21,8 +22,12 @@ builder.WebHost.ConfigureKestrel((context, serverOptions) =>
 });
 
 // Add services to the container.
-builder.Services.AddControllers();
 builder.Services.AddApplicationInjection(builder.Configuration);
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
 
 
 // options

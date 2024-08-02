@@ -33,7 +33,7 @@ public sealed class ListAllClientesHandler : IRequestHandler<ListAllClientesRequ
         _logger = logger;
         _repo = repo;
     }
-    
+
     public async Task<HttpResult<PaginationResponse<ListAllClientesResponse>>> Handle(ListAllClientesRequest request, CancellationToken cancellationToken)
     {
         try
@@ -43,20 +43,25 @@ public sealed class ListAllClientesHandler : IRequestHandler<ListAllClientesRequ
                 return HttpResult<PaginationResponse<ListAllClientesResponse>>.BadRequest(nameof(request.UsuarioId), DefaultResources.NaoPodeSerVazio);
 
             var query = new StringBuilder();
-            query.Append(@"SELECT * FROM Operacao.Clientes C WHERE C.UsuarioId = @UsuarioId ");
+            query.AppendLine(@"SELECT * FROM Operacao.Clientes C WHERE C.UsuarioId = @UsuarioId");
 
             if (!string.IsNullOrEmpty(request.Pesquisa))
-                query.AppendLine($"AND CONCAT(LOWER(U.Nome), LOWER(U.Email), LOWER(U.Id)) LIKE '%{request.Pesquisa.ToLower()}%'");
-            
+                query.AppendLine($"AND CONCAT(LOWER(C.Nome), LOWER(C.Documento), LOWER(C.Id), LOWER(C.Telefone), LOWER(C.Endereco)) LIKE '%{request.Pesquisa.ToLower()}%'");
+
+            query.AppendLine("ORDER BY C.UltimaAtualizacao DESC");
+            query.AppendLine("OFFSET (@pagina - 1) * @qtdePorPagina ROWS FETCH NEXT @qtdePorPagina ROWS ONLY;");
+
             var rows = await _repo.Read.QueryAsync<Cliente>(query.ToString(), new
             {
-                request.UsuarioId
+                request.UsuarioId,
+                pagina = request.Pagina,
+                qtdePorPagina = request.TotalPorPagina
             });
-            
+
             var response = PaginationResponse<ListAllClientesResponse>.Paginate(
                 request,
                 rows.Adapt<List<ListAllClientesResponse>>(),
-                await _repo.Usuarios.CountAsync()
+                await _repo.Clientes.CountAsync()
             );
             return HttpResult<PaginationResponse<ListAllClientesResponse>>.Success(response);
 

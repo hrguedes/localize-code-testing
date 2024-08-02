@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Hrguedes.Localize.Application.Features.Clientes.Commands.Create;
 using Hrguedes.Localize.Application.Features.Clientes.Commands.GetById;
 using Hrguedes.Localize.Application.Features.Clientes.Commands.ListAll;
+using Hrguedes.Localize.Application.Features.Clientes.Commands.ListClienteCobrancas;
 using Hrguedes.Localize.Application.Features.Clientes.Commands.Update;
 using Hrguedes.Localize.Infra.Shared.Http;
 using Hrguedes.Localize.Infra.Shared.Models;
@@ -152,6 +153,34 @@ public class ClienteController : BaseController
     public async Task<IActionResult> Listar(
         [FromServices] IMediator mediator,
         [FromQuery] ListAllClientesRequest request)
+    {
+        request.UsuarioId = GetUserId();
+        return ResponseCode(await mediator.Send(request));
+    }
+    
+    /// <summary>
+    ///     Listar Clientes com totais de cobrancas
+    /// </summary>
+    /// <remarks>
+    /// Exemplo:
+    /// 
+    ///     GET /api/v1/operacao/clientes/all/details?Pesquisa=sd&amp;Pagina=1&amp;TotalPorPagina=12
+    /// 
+    /// </remarks>
+    /// <param name="mediator"></param>
+    /// <param name="request"></param>
+    /// <returns> [{}] </returns>
+    /// <response code="200">[{}]</response>
+    /// <response code="400">Erro de Cliente</response>
+    /// <response code="500">Erro de Servidor</response>
+    [HttpGet("all/details")]
+    [Authorize]
+    [ProducesResponseType(typeof(HttpResult<PaginationResponse<ListAllClientesResponse>>), 200)]
+    [ProducesResponseType(typeof(HttpResult<PaginationResponse<ListAllClientesResponse>>), 400)]
+    [ProducesResponseType(typeof(HttpResult<>), 500)]
+    public async Task<IActionResult> ListarDetalhado(
+        [FromServices] IMediator mediator,
+        [FromQuery] ListClienteCobrancasRequest request)
     {
         request.UsuarioId = GetUserId();
         return ResponseCode(await mediator.Send(request));

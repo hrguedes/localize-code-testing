@@ -24,6 +24,6 @@ public static class DependencyInjection
         {
             return new DbSession(config.GetConnectionString("DefaultConnection") ?? "");
         });
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
     }
 }

@@ -3,17 +3,18 @@ using Hrguedes.Localize.Application.Features.Clientes.Commands.Update;
 using Hrguedes.Localize.Application.Features.Clientes.Models;
 using Hrguedes.Localize.Domain.Entities;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hrguedes.Localize.Application.Features.Clientes.Mappings;
 
-public class ClienteMapping : IRegister
+public static class ClienteMapping
 {
-    public void Register(TypeAdapterConfig config)
+    public static void RegisterClienteMapping(this IServiceCollection services)
     {
-        config.NewConfig<CreateClienteRequest, Cliente>().IgnoreNullValues(true);
-        config.NewConfig<UpdateClienteRequest, Cliente>()
+        TypeAdapterConfig<CreateClienteRequest, Cliente>.NewConfig().IgnoreNullValues(true);
+        TypeAdapterConfig<UpdateClienteRequest, Cliente>.NewConfig()
             .IgnoreNullValues(true);
-        config.NewConfig<Cliente, ClienteModel>()
+        TypeAdapterConfig<Cliente, ClienteModel>.NewConfig()
             .Map(dest => dest.RegistroCriado, sourc => sourc.RegistroCriado.ToString("dd/MM/yyyy"))
             .Map(dest => dest.RegistroRemovido, sourc => sourc.RegistroRemovido!.Value.ToString("dd/MM/yyyy"))
             .Map(dest => dest.UltimaAtualizacao, sourc => sourc.UltimaAtualizacao!.Value.ToString("dd/MM/yyyy"))

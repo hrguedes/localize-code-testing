@@ -41,7 +41,7 @@ public class UnitOfWork : IUnitOfWork
     
     public IDbConnection Read => _session.Connection;
     public void SaveChanges() => _context.SaveChanges();
-    public void Dispose() => _session.Transaction.Dispose();
+    public void Dispose() => _session.Transaction?.Dispose();
     public void BeginTransaction() => _session.Transaction = _session.Connection.BeginTransaction();
     public async Task SaveChangesAsync(CancellationToken cancellationToken) => await _context.SaveChangesAsync(cancellationToken);
 }

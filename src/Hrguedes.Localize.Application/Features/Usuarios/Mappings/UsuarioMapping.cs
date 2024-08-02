@@ -2,17 +2,18 @@ using Hrguedes.Localize.Application.Features.Usuarios.Commands.GetByEmail;
 using Hrguedes.Localize.Application.Features.Usuarios.Models;
 using Hrguedes.Localize.Domain.Entities;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hrguedes.Localize.Application.Features.Usuarios.Mappings;
 
-public class UsuarioMapping : IRegister
+public static class UsuarioMapping
 {
-    public void Register(TypeAdapterConfig config)
+    public static void RegisterUsuarioMapping(this IServiceCollection services)
     {
-        config.NewConfig<GetUsuarioByEmailRequest, Usuario>()
+        TypeAdapterConfig<GetUsuarioByEmailRequest, Usuario>.NewConfig()
             .IgnoreNullValues(true);
         
-        config.NewConfig<Usuario, UsuarioModel>()
+        TypeAdapterConfig<Usuario, UsuarioModel>.NewConfig()
             .Map(dest => dest.RegistroCriado, sourc => sourc.RegistroCriado.ToString("dd/MM/yyyy"))
             .Map(dest => dest.RegistroRemovido, sourc => sourc.RegistroRemovido!.Value.ToString("dd/MM/yyyy"))
             .Map(dest => dest.UltimaAtualizacao, sourc => sourc.UltimaAtualizacao!.Value.ToString("dd/MM/yyyy"))

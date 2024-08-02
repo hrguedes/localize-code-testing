@@ -1,7 +1,9 @@
 using System.Reflection;
+using Hrguedes.Localize.Application.Features.Clientes.Mappings;
+using Hrguedes.Localize.Application.Features.Cobrancas.Mappings;
 using Hrguedes.Localize.Application.Features.Usuarios.Commands.GetByEmail;
+using Hrguedes.Localize.Application.Features.Usuarios.Mappings;
 using Hrguedes.Localize.Infra.DependencyInjection;
-using Mapster;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,8 +23,12 @@ public static class AddDependencyInjection
         });
 
         // mapping
-        TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
+        services.RegisterCobrancaMapping();
+        services.RegisterClienteMapping();
+        services.RegisterUsuarioMapping();
 
+        
         return services;
     }
+    
 }

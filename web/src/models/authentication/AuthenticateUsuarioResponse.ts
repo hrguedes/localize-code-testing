@@ -1,6 +1,6 @@
 export default interface AuthenticateUsuarioResponse {
-  email: string;
-  nome: string;
-  token: string;
-  id: string;
+  Email: string;
+  Nome: string;
+  Token: string;
+  Id: string;
 }

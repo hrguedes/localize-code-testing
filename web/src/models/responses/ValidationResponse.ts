@@ -1,4 +1,4 @@
 export interface ValidationResponse {
-    key: string
-    message: string
+    Key: string
+    Message: string
 }

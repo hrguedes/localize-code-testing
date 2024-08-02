@@ -5,6 +5,7 @@ using Hrguedes.Localize.Infra.Shared.Http;
 using Hrguedes.Localize.Infra.Shared.Models;
 using Hrguedes.Localize.Infra.Shared.Resources;
 using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +22,7 @@ public sealed class GetCobrancasByClienteIdHandler : IRequestHandler<GetCobranca
     {
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
         ArgumentNullException.ThrowIfNull(repo, nameof(repo));
-
+        
         _logger = logger;
         _repo = repo;
     }
@@ -44,7 +45,7 @@ public sealed class GetCobrancasByClienteIdHandler : IRequestHandler<GetCobranca
             var response = PaginationResponse<GetCobrancasByClienteIdResponse>.Paginate(
                 request,
                 rows.Adapt<List<GetCobrancasByClienteIdResponse>>(),
-                await _repo.Usuarios.CountAsync()
+                await _repo.Cobrancas.CountAsync()
             );
             return HttpResult<PaginationResponse<GetCobrancasByClienteIdResponse>>.Success(response);
         }

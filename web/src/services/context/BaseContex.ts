@@ -28,12 +28,12 @@ const handleApiResponse = <T>(
     });
   } else if (response.status === 400) {
     var resp: HttpResponse<T> = {
-      value: response.data.value,
-      httpStatusCode: 400,
-      message: response.data.message,
-      ok: response.data.ok,
-      errorMessages: response.data.errorMessages,
-      exception: response.data.exception,
+      Value: response.data.Value,
+      HttpStatusCode: 400,
+      Message: response.data.Message,
+      Ok: response.data.Ok,
+      ErrorMessages: response.data.ErrorMessages,
+      Exception: response.data.Exception,
     };
     return resp;
   }
@@ -44,13 +44,13 @@ const handleApiResponse = <T>(
       text: "Ocorreu um erro no servidor, por favor entrar em contato com o suporte",
     });
     var resp: HttpResponse<T> = {
-      value: response.data.value,
-      httpStatusCode: 500,
-      message:
+      Value: response.data.Value,
+      HttpStatusCode: 500,
+      Message:
         "Ocorreu um erro no servidor, por favor entrar em contato com o suporte.",
-      ok: false,
-      errorMessages: response.data.errorMessages,
-      exception: response.data.exception,
+      Ok: false,
+      ErrorMessages: response.data.ErrorMessages,
+      Exception: response.data.Exception,
     };
     return resp;
   }

@@ -1,7 +1,10 @@
 "use client";
 import { AuthContextType } from "@/types/AuthContextType";
 import { createContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import Cookies from "js-cookie"
+import Header from "@/components/layout/Header";
+import { ItemMenu } from "@/components/layout/Menu";
+import { usePathname } from "next/navigation";
 
 // context
 export const AuthContext = createContext<AuthContextType>({
@@ -11,11 +14,27 @@ export const AuthContext = createContext<AuthContextType>({
   id: "",
   isAuthenticated: false,
   Logout: () => {},
-  LogIn: () => {}
+  LogIn: () => {},
 });
+
+// Static Menu Itens
+const itemsMenu: ItemMenu[] = [
+  {
+    label: "Home",
+    url: "/",
+    active: true,
+  },
+  {
+    label: "Operações",
+    url: "/operacoes/clientes/listar",
+    active: false,
+  },
+];
 
 // provider
 export const AuthProvider = ({ children }: any) => {
+  var route = usePathname();
+  const [menuItems, setMenuItems] = useState<ItemMenu[]>(itemsMenu);
   const [email, setEmail] = useState<string | null>(null);
   const [nome, setNome] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -34,7 +53,14 @@ export const AuthProvider = ({ children }: any) => {
       setId(id);
       setIsAuthenticated(true);
     }
-  }, [nome, email, token, id]);
+
+    var menu = menuItems.map((m) => {
+      if (m.url === route) m.active = true;
+      else m.active = false;
+      return m;
+    });
+    setMenuItems(menu);
+  }, [nome, email, token, id, route]);
 
   function Logout() {
     Cookies.remove("localize.email");
@@ -49,7 +75,14 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   function LogIn() {
-    setIsAuthenticated(true);
+    const token = Cookies.get("localize.token");
+    if (token)
+    {
+      setToken(token);
+      setIsAuthenticated(true);
+    } else {
+      
+    }
   }
 
   return (
@@ -61,13 +94,20 @@ export const AuthProvider = ({ children }: any) => {
         token,
         isAuthenticated,
         Logout,
-        LogIn
+        LogIn,
       }}
     >
       {isAuthenticated ? (
         <>
-          <h1> Logado </h1>
-          {children}
+          <div className="flex min-h-screen w-full flex-col">
+            <Header
+              navbarProps={{ menuItems: menuItems }}
+              userMenuProps={{ usuario: nome ?? "" }}
+            />
+            <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+              {children}
+            </main>
+          </div>
         </>
       ) : (
         <>{children}</>
